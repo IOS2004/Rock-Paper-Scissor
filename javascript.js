@@ -11,26 +11,20 @@ function getComputerChoice()
     return "paper";
 }
 
-function getHumanChoice()
-{
-  let ask = prompt("Tell your choice: ");
-  ask = ask.toLowerCase();
-  if (ask != "rock" && ask != "paper" && ask != "scissor")
-  {
-    console.log("Invalid choice");
-    return getHumanChoice();
-  }
-  return ask;
-}
-
-
 let humanScore = 0;
 let computerScore = 0;
 
+let output = document.querySelector('.output');
+let info = document.createElement('p');
+let res = document.createElement('h3');
+let score = document.createElement('h2');
+output.appendChild(info);
+output.appendChild(res);
+output.appendChild(score);
+
 function playRound(humanChoice, computerChoice)
 {
-  console.log("Human choice: " + humanChoice);
-  console.log("Computer choice: " + computerChoice);
+  info.textContent = "Human choice: " + humanChoice.toUpperCase() + "  " + "Computer choice: " + computerChoice.toUpperCase();
   if (humanChoice == computerChoice)
   {
     return "Tie! " + humanChoice + " ties to " + computerChoice;
@@ -72,11 +66,25 @@ function playRound(humanChoice, computerChoice)
     }
   }
 }
+score.textContent= "Human score: " + humanScore + ' ' + "Computer score: " + computerScore;
 
-for (let i = 1; i <= 5; i++)
-{
-  console.log("Round " + i + " fight! ");
-  console.log(playRound(getHumanChoice(), getComputerChoice()));
-}
+let btns = document.querySelector('.container');
+btns.addEventListener('click', function (event) {
+  let clink = event.target;
+  res.textContent = playRound(clink.id, getComputerChoice());
+  score.textContent= "Human score: " + humanScore + ' ' + "Computer score: " + computerScore;
+  if (humanScore == 5 || computerScore == 5)
+  {
+    if (humanScore == 5)
+    {
+      score.textContent = "Congratulations! YOU WIN";
+    }
+    else 
+    {
+      score.textContent = "You Lose! Better luck next time.";
+    }
+    humanScore = 0;
+    computerScore = 0;
+  }
+})
 
-console.log("Final score is: Computer - " + computerScore + " Human - " + humanScore);
